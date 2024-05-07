@@ -1,0 +1,113 @@
+"start symbol" = <program>
+!-------terminal------------------------
+id=[_]|{letter}{Alphanumeric}*
+Digit=('+'|'-')?{digit}+('.'{digit}+)?(('e'|('-'|'+')?{digit}+)'^'('+'|'-'){digit}+('.'{digit}+)?)?  
+!--------rules--------------------------
+<program> ::= <stmt_list>
+<stmt_list> ::= <concept>
+             |<concept><stmt_list>
+             
+<concept> ::= <assign>
+           |<if_stmt>
+           |<for_stmt>
+           |<while_stmt>
+           |<do_while_stmt>
+           |<switch_stmt>
+           |<function_def>
+           |<function_call>
+           |<print_stmt>
+           |<lambda_expr>
+           
+<assign> ::= <id> '=' <expr>
+          
+<id> ::= id   
+      
+<expr> ::= <expr>'+'<term>
+        |<expr>'-'<term>
+        |<term>
+        
+<term> ::= <term>'*'<factor>
+        |<term>'/'<factor>
+        |<term>'%'<factor>
+        |<factor>
+        
+<factor> ::= <factor>'**'<exp>
+          |<exp>
+          
+<exp> ::= '('<exp>')'
+       |<id>
+       |<digit>
+       
+<digit> ::= Digit     
+         
+!----------If_Stmt------------------------------
+<if_stmt> ::= if '('<cond>')'':' <stmt_list>
+           |if '('<cond>')'':' <stmt_list> else <stmt_list>
+           
+<cond> ::= <expr><op><expr>
+        
+<op> ::= '<'|'>'|'=='|'!='|'<='|'>='
+      
+!-----------switch---------------------------------
+<switch_stmt> ::= <assign>  switch '(' <expr> ')' ':' <case_list>   <default_opt>
+
+<case_list> ::= <case_clause> break | <case_clause> break <case_list>
+
+<case_clause> ::= case <expr> ':' <stmt_list>
+
+<default_opt> ::= default ':' <stmt_list> |                                 
+      
+!-----------For------------------------------------
+<for_stmt> ::= for'('<data><assign>';'<cond>';'<step>')'':' <stmt_list>
+            
+<data> ::= int|float|double|string
+        
+<step> ::= '--'<id>
+        |<id>'--'
+        |<id>'++'
+        |'++'<id>
+        |<assign>
+        
+!------------while---------------------------------------------
+<while_stmt> ::= while '(' <cond> ')'':'<stmt_list>
+!-----------do_while---------------------------------------------
+<do_while_stmt> ::= do ':' <stmt_list> while '(' <cond> ')'
+       
+!-----------function---------------------------------------------
+<function_def> ::= def <id> '(' <param_list> ')' ':' <stmt_list>
+                
+<param_list> ::= <id> 
+              | <id> ',' <param_list>
+              |
+              
+<function_call> ::= <id> '(' <arg_list> | ')'
+                 
+<arg_list> ::= <expr> 
+            | <expr> ',' <arg_list>
+
+!------------lambda----------------------------------------------
+<lambda_expr> ::= <id> '=' lambda '(' <param_list> ')' ':' <expr>
+               
+!-----------------------------------------------------------------
+<print_stmt> ::= print '(' <id> ')' 
+              | print '(' <digit> ')'
+              
+               
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           
+               
